@@ -38,6 +38,10 @@ Only the `identify` scope is requested.
 
 Health check: `GET /api/health`.
 
+## Game catalog
+
+`src/db/catalog.ts` has the hand-picked games, which come with descriptions. `src/db/catalog-imported.ts` adds about 500 more, generated from the community list at [aukspot/dles](https://github.com/aukspot/dles) (names, links and categories only). Dead links were removed. The catalog is upserted on every server start.
+
 ## How embedding is decided
 
 On add (and weekly after) the server fetches the game's page and reads `X-Frame-Options` / CSP `frame-ancestors`. That fetch blocks private and loopback addresses at the socket level, so user-submitted links can't reach internal services. Some sites block iframes with JavaScript instead of headers. For those, an admin can set the game to "Always new tab", and any user can pick "Always use a new tab" per game from the player.

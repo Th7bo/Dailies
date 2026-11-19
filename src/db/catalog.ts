@@ -3,7 +3,7 @@ export type CatalogEntry = {
   name: string;
   url: string;
   category: Category;
-  description: string;
+  description?: string;
   /** Site blocks iframes with JavaScript, which the header check can't see. */
   forceNewTab?: boolean;
 };
@@ -13,14 +13,19 @@ export const CATEGORIES = {
   geography: "Geography",
   logic: "Logic & numbers",
   trivia: "Trivia",
+  history: "History",
+  science: "Science & nature",
+  estimation: "Estimation",
+  visual: "Shapes & colours",
   music: "Music",
   screen: "Movies & TV",
   gaming: "Gaming",
+  sports: "Sports",
   other: "Other",
 } as const;
 export type Category = keyof typeof CATEGORIES;
 
-export const CATALOG: CatalogEntry[] = [
+const CURATED: CatalogEntry[] = [
   // Words
   { id: "wordle", name: "Wordle", url: "https://www.nytimes.com/games/wordle/index.html", category: "words", description: "Guess the five-letter word in six tries." },
   { id: "connections", name: "Connections", url: "https://www.nytimes.com/games/connections", category: "words", description: "Sort sixteen words into four hidden groups." },
@@ -62,6 +67,27 @@ export const CATALOG: CatalogEntry[] = [
   { id: "loldle", name: "LoLdle", url: "https://loldle.net", category: "gaming", description: "Guess the League of Legends champion." },
   { id: "pokedoku", name: "PokeDoku", url: "https://pokedoku.com", category: "gaming", description: "Fill a grid with Pokémon that match both clues." },
 
+  // Newer picks (added 2026-11)
+  { id: "rngdle", name: "RNGdle", url: "https://www.rngdle.com", category: "other", description: "Roll your number for the day, collect badges and compare luck with friends." },
+  { id: "krillion", name: "Krillion", url: "https://krillion.io", category: "trivia", description: "Seven prompts a day. The rarer your answer, the more it scores." },
+  { id: "minellion", name: "Minellion", url: "https://minellion.io", category: "gaming", description: "Krillion for Minecraft: seven prompts, and rare answers dig deeper." },
+  { id: "clues-by-sam", name: "Clues by Sam", url: "https://cluesbysam.com", category: "logic", description: "Work out who's a criminal and who's innocent from everyone's clues." },
+  { id: "mini-murdle", name: "Mini Murdle", url: "https://murdle.com/mini/", category: "logic", description: "A tiny murder mystery: three suspects, three weapons, three places." },
+  { id: "glyph", name: "Glyph", url: "https://bludle.com/glyph/", category: "words", description: "Guess five words from the outline of their letters." },
+  { id: "mapcade", name: "Mapcade", url: "https://mapcade.app/", category: "geography", description: "A set of quick map games: borders, sizes, flags and capitals." },
+  { id: "lost-in-translation", name: "Lost in Translation", url: "https://lostintranslationdaily.com/", category: "screen", description: "Name the movie from the title another country gave it." },
+  { id: "chartered", name: "Chartered", url: "https://playchartered.com/", category: "history", description: "Pin where five historical events happened and guess the year." },
+  { id: "departle", name: "Departle", url: "https://www.departle.com/", category: "geography", description: "Name the airport from a real departure board in the local language." },
+  { id: "bonkle", name: "Bonkle", url: "https://bonkle.io/", category: "gaming", description: "A brick-breaker with the same board for everyone. Clear it in five volleys." },
+
   // Other
   { id: "costcodle", name: "Costcodle", url: "https://costcodle.com", category: "other", description: "Guess the price of a Costco item." },
+];
+
+import { IMPORTED } from "./catalog-imported";
+
+/** Hand-picked games first (they have descriptions), then the imported list. */
+export const CATALOG: CatalogEntry[] = [
+  ...CURATED,
+  ...IMPORTED,
 ];
