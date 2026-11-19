@@ -19,7 +19,14 @@ const adminIds = new Set(
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: DrizzleAdapter(db, { usersTable: users, accountsTable: accounts }),
-  providers: [Discord({ authorization: { params: { scope: "identify" } } })],
+  providers: [
+    Discord({
+      authorization: { params: { scope: "identify" } },
+      // Discord returns `iss=https://discord.com` on the callback (RFC 9207).
+      // Without this, Auth.js compares it to its "https://authjs.dev" fallback and rejects the login.
+      issuer: "https://discord.com",
+    }),
+  ],
   session: { strategy: "jwt" },
   pages: { signIn: "/signin" },
   callbacks: {
